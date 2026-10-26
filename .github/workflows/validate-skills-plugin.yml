@@ -1,0 +1,54 @@
+name: Validate skills plugin
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Claude Code
+        run: npm install --global @anthropic-ai/claude-code
+
+      - name: Validate marketplace
+        run: claude plugin validate --strict .
+
+      - name: Validate plugin package
+        shell: bash
+        run: |
+          plugin_dir="$(mktemp -d)"
+          trap 'rm -rf "$plugin_dir"' EXIT
+          mkdir -p "$plugin_dir/.claude-plugin"
+          cp .claude-plugin/plugin.json "$plugin_dir/.claude-plugin/plugin.json"
+          while IFS= read -r skill_path; do
+            skill_path="${skill_path#./}"
+            mkdir -p "$plugin_dir/$(dirname "$skill_path")"
+            cp -R "$skill_path" "$plugin_dir/$skill_path"
+          done < <(jq -r '.skills[]?' .claude-plugin/plugin.json)
+          claude plugin validate --strict "$plugin_dir"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Agent Skills reference validator
+        run: python -m pip install "git+https://github.com/agentskills/agentskills.git#subdirectory=skills-ref"
+
+      - name: Validate published skills
+        shell: bash
+        run: |
+          while IFS= read -r skill_path; do
+            skills-ref validate "${skill_path#./}"
+          done < <(jq -r '.skills[]?' .claude-plugin/plugin.json)

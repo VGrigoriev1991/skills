@@ -15,7 +15,8 @@ This is a single-context repository. See `docs/agents/domain.md`.
 ## Skill authoring and publication
 
 - Store each skill at `skills/engineering/<skill-name>/SKILL.md`.
-- Use portable Agent Skills frontmatter: `name` matches the lowercase, hyphenated directory name; `description` states what the skill does and when to use it.
-- Add supporting references, scripts, or assets only when a skill needs them.
-- Treat a skill as a draft until its directory is listed in the Claude plugin manifest and its entry appears in the README catalog. Keep those two published-skill lists synchronized.
+- Use portable [Agent Skills](https://agentskills.io/specification) frontmatter with a `name` matching the lowercase, hyphenated directory name and a `description` explaining the skill's purpose and when to use it.
+- Supporting references, scripts, and assets are optional; add them only when useful.
+- Treat every skill as a draft unless its directory is explicitly listed in `.claude-plugin/plugin.json` and the skill also appears in the README catalog.
+- Publish or withdraw a skill by updating both the plugin's explicit skill list and the README catalog in the same change. Keep their published-skill lists synchronized.
 - The Claude Code plugin initially contains skills only; defer other plugin components and per-skill client-specific metadata until needed.

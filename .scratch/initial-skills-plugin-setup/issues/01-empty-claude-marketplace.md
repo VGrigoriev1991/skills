@@ -1,4 +1,5 @@
-Status: ready-for-agent
+Type: task
+Status: resolved
 
 # 01: Create the empty Claude Code marketplace package
 
@@ -6,6 +7,10 @@ Status: ready-for-agent
 
 **Blocked by:** None (can start immediately).
 
-- [ ] The marketplace and plugin identify the repository, author, description, MIT license, and version `0.1.0`, using the agreed marketplace and plugin identifiers.
-- [ ] The initial plugin has an explicitly empty skill list and does not require a placeholder skill.
-- [ ] The existing repository MIT license remains authoritative, with no second license system introduced.
+- [x] The marketplace and plugin identify the repository, author, description, MIT license, and version `0.1.0`, using the agreed marketplace and plugin identifiers.
+- [x] The initial plugin has an explicitly empty skill list and does not require a placeholder skill.
+- [x] The existing repository MIT license remains authoritative, with no second license system introduced.
+
+## Answer
+
+Added the `vgrigoriev1991` marketplace and `vgrigoriev-skills` plugin manifests at version `0.1.0`, with an explicitly empty skill list and MIT metadata. The repository's existing `LICENSE` remains the only license file. See [the implementation map](../map.md#decisions-so-far).

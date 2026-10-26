@@ -23,7 +23,13 @@ jobs:
         run: npm install --global @anthropic-ai/claude-code
 
       - name: Validate marketplace
-        run: claude plugin validate --strict .
+        shell: bash
+        run: |
+          marketplace_dir="$(mktemp -d)"
+          trap 'rm -rf "$marketplace_dir"' EXIT
+          git archive HEAD | tar -x -C "$marketplace_dir"
+          rm "$marketplace_dir/CLAUDE.md"
+          claude plugin validate --strict "$marketplace_dir"
 
       - name: Validate plugin package
         shell: bash

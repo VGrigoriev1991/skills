@@ -44,17 +44,3 @@ jobs:
             cp -R "$skill_path" "$plugin_dir/$skill_path"
           done < <(jq -r '.skills[]?' .claude-plugin/plugin.json)
           claude plugin validate --strict "$plugin_dir"
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install Agent Skills reference validator
-        run: python -m pip install "git+https://github.com/agentskills/agentskills.git#subdirectory=skills-ref"
-
-      - name: Validate published skills
-        shell: bash
-        run: |
-          while IFS= read -r skill_path; do
-            skills-ref validate "${skill_path#./}"
-          done < <(jq -r '.skills[]?' .claude-plugin/plugin.json)

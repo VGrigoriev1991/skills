@@ -1,6 +1,6 @@
 # VGrigoriev Skills
 
-Portable engineering skills, authored in the [Agent Skills](https://agentskills.io) format and distributed through a skills-only Claude Code plugin. The repository currently has no published skills.
+Portable engineering skills, authored in the [Agent Skills](https://agentskills.io) format and distributed through a skills-only Claude Code plugin.
 
 ## Claude Code
 
@@ -79,4 +79,4 @@ Gemini CLI discovers workspace skills in both locations. Run `/skills list` to s
 
 ## Published skills
 
-No skills are currently published. When a skill is published, it will appear here with a concise description.
+- [work-sizing](skills/engineering/work-sizing/SKILL.md) — Size an initiative, recursively decompose it into slices, and prepare a detailed-spec handoff.

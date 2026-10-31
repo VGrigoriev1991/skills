@@ -8,5 +8,7 @@
   },
   "repository": "https://github.com/VGrigoriev1991/skills",
   "license": "MIT",
-  "skills": []
+  "skills": [
+    "./skills/engineering/work-sizing"
+  ]
 }

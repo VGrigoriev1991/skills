@@ -1,0 +1,30 @@
+name: Validate skills plugin
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Validate release metadata
+        run: npm run check:versions
+
+      - name: Check the published skill list is valid
+        run: |
+          node -e "const fs=require('fs'); const plugin=JSON.parse(fs.readFileSync('.claude-plugin/plugin.json','utf8')); const readme=fs.readFileSync('README.md','utf8'); const skillDir='skills/engineering/work-sizing'; if (!plugin.skills.includes('./skills/engineering/work-sizing')) throw new Error('Plugin manifest does not publish work-sizing'); if (!readme.includes('work-sizing')) throw new Error('README catalog is missing the published work-sizing skill'); if (!fs.existsSync(skillDir + '/SKILL.md')) throw new Error('Published skill entry is missing'); console.log('Published skill metadata validated.');"

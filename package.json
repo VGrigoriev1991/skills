@@ -1,0 +1,14 @@
+{
+  "name": "vgrigoriev-skills",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "sync:versions": "node scripts/sync-release-metadata.mjs",
+    "check:versions": "node scripts/check-release-metadata.mjs"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.3"
+  }
+}

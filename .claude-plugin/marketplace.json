@@ -1,7 +1,7 @@
 {
   "name": "vgrigoriev1991",
   "description": "Portable engineering skills by Vladimir Grigoriev.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "owner": {
     "name": "Vladimir Grigoriev",
     "url": "https://github.com/VGrigoriev1991"
@@ -11,7 +11,7 @@
       "name": "vgrigoriev-skills",
       "source": "./",
       "description": "Portable engineering skills by Vladimir Grigoriev.",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "author": {
         "name": "Vladimir Grigoriev",
         "url": "https://github.com/VGrigoriev1991"

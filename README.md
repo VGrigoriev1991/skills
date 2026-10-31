@@ -27,7 +27,9 @@ claude plugin marketplace remove vgrigoriev1991
 
 The [published skills catalog](#published-skills) is the source of truth for the skills included in the plugin. Only skills listed in both that catalog and `.claude-plugin/plugin.json` are published.
 
-Marketplace and plugin versions start at `0.1.0`. Update both versions manually using Semantic Versioning when publishing changes.
+The root `package.json` version is authoritative for the plugin release. Use Changesets to record the intended SemVer bump, then run `npm run sync:versions` so the plugin manifest and marketplace metadata stay aligned with the package version.
+
+SemVer policy: patch for fixes and non-user-facing maintenance, minor for new skills and backward-compatible capabilities, and major for published-skill removals or other breaking compatibility changes.
 
 ## Use portable skills in other clients
 

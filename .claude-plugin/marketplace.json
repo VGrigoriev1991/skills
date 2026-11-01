@@ -1,23 +1,21 @@
 {
   "name": "vgrigoriev1991",
-  "description": "Portable engineering skills by Vladimir Grigoriev.",
-  "version": "1.0.0",
   "owner": {
     "name": "Vladimir Grigoriev",
     "url": "https://github.com/VGrigoriev1991"
   },
+  "description": "Portable engineering skills by Vladimir Grigoriev, distributed as an installable Claude Code plugin.",
   "plugins": [
     {
       "name": "vgrigoriev-skills",
       "source": "./",
       "description": "Portable engineering skills by Vladimir Grigoriev.",
-      "version": "1.0.0",
-      "author": {
-        "name": "Vladimir Grigoriev",
-        "url": "https://github.com/VGrigoriev1991"
-      },
-      "repository": "https://github.com/VGrigoriev1991/skills",
-      "license": "MIT"
+      "category": "engineering",
+      "keywords": [
+        "engineering",
+        "skills",
+        "work-sizing"
+      ]
     }
   ]
 }

@@ -6,25 +6,55 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Claude Code
+        run: npm install --global @anthropic-ai/claude-code
 
-      - name: Validate release metadata
-        run: npm run check:versions
-
-      - name: Check the published skill list is valid
+      - name: Validate marketplace
+        shell: bash
         run: |
-          node -e "const fs=require('fs'); const plugin=JSON.parse(fs.readFileSync('.claude-plugin/plugin.json','utf8')); const readme=fs.readFileSync('README.md','utf8'); const skillDir='skills/engineering/work-sizing'; if (!plugin.skills.includes('./skills/engineering/work-sizing')) throw new Error('Plugin manifest does not publish work-sizing'); if (!readme.includes('work-sizing')) throw new Error('README catalog is missing the published work-sizing skill'); if (!fs.existsSync(skillDir + '/SKILL.md')) throw new Error('Published skill entry is missing'); console.log('Published skill metadata validated.');"
+          marketplace_dir="$(mktemp -d)"
+          trap 'rm -rf "$marketplace_dir"' EXIT
+          git archive HEAD | tar -x -C "$marketplace_dir"
+          rm "$marketplace_dir/CLAUDE.md"
+          claude plugin validate --strict "$marketplace_dir"
+
+      - name: Validate plugin package
+        shell: bash
+        run: |
+          plugin_dir="$(mktemp -d)"
+          trap 'rm -rf "$plugin_dir"' EXIT
+          mkdir -p "$plugin_dir/.claude-plugin"
+          cp .claude-plugin/plugin.json "$plugin_dir/.claude-plugin/plugin.json"
+          while IFS= read -r skill_path; do
+            skill_path="${skill_path#./}"
+            mkdir -p "$plugin_dir/$(dirname "$skill_path")"
+            cp -R "$skill_path" "$plugin_dir/$skill_path"
+          done < <(jq -r '.skills[]?' .claude-plugin/plugin.json)
+          claude plugin validate --strict "$plugin_dir"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Agent Skills reference validator
+        run: python -m pip install "git+https://github.com/agentskills/agentskills.git#subdirectory=skills-ref"
+
+      - name: Validate published skills
+        shell: bash
+        run: |
+          while IFS= read -r skill_path; do
+            skills-ref validate "${skill_path#./}"
+          done < <(jq -r '.skills[]?' .claude-plugin/plugin.json)

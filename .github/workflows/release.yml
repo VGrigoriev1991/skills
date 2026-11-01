@@ -1,34 +1,37 @@
-name: Changesets version PR
+name: Release
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  version:
+  release:
+    name: Version
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
     steps:
-      - name: Check out repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Create or update version PR
+      - name: Create Version Pull Request
         uses: changesets/action@v1
         with:
-          title: "chore: version release"
-          commit: "chore: version release"
+          version: npm run version
+          publish: npx changeset tag
+          commit: "chore: version skills"
+          title: "chore: version skills"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

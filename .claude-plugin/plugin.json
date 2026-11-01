@@ -1,13 +1,19 @@
 {
   "name": "vgrigoriev-skills",
-  "version": "1.0.0",
-  "description": "Portable engineering skills by Vladimir Grigoriev.",
+  "version": "0.1.0",
+  "description": "Portable engineering skills by Vladimir Grigoriev, for practical software development.",
   "author": {
     "name": "Vladimir Grigoriev",
     "url": "https://github.com/VGrigoriev1991"
   },
+  "homepage": "https://github.com/VGrigoriev1991/skills",
   "repository": "https://github.com/VGrigoriev1991/skills",
   "license": "MIT",
+  "keywords": [
+    "engineering",
+    "skills",
+    "work-sizing"
+  ],
   "skills": [
     "./skills/engineering/work-sizing"
   ]

@@ -100,8 +100,21 @@ This step is complete when approved changes are persisted, or the complete propo
 
 ## 6. Hand off a ready leaf
 
-For a ready or provisional-ready leaf, provide a self-contained, copyable prompt that carries the agreed context into `grill-with-docs -> to-spec -> to-tickets`. Include provisional assumptions and validation questions when applicable. Tell the next workflow to create the detailed specification and implementation tickets.
+For a ready or provisional-ready leaf, resolve the selected slice to its exact repository-relative brief path using the initiative map and current conversation. If the path is unknown or multiple slices fit, ask the user to provide or confirm the path before preparing the handoff. Do not emit a placeholder path.
+
+Provide a copyable prompt that scopes `grill-with-docs -> to-spec -> to-tickets` to that exact path. The prompt must direct the next session to verify the path in its checkout, read the slice brief and initiative map, then follow linked parent/context artifacts and relevant domain guidance (such as the glossary or ADRs) as needed. Treat those artifacts as the source of truth; do not duplicate their summary in the prompt. If the path is missing, does not identify the selected slice, or necessary context is inaccessible, the next session must stop and clarify rather than guess. Tell the next workflow to create the detailed specification and implementation tickets.
+
+Use this shape, replacing the path with the exact brief path before presenting it:
+
+```text
+Use grill-with-docs -> to-spec -> to-tickets for the selected slice.
+Slice brief: <exact repository-relative path>
+
+Verify that this path exists in your checkout and identifies the selected slice. Read the brief and initiative map, then follow linked parent/context artifacts and relevant domain guidance as needed. Treat those artifacts as the source of truth. If the path or necessary context is unavailable or does not match the selected slice, stop and ask for clarification rather than guessing.
+
+Create the detailed specification and implementation tickets for this slice.
+```
 
 Stop at this handoff. Do not create the detailed specification or tickets, launch sessions, track implementation, or require the downstream skills to be installed in this repository.
 
-This step is complete when the user has the copyable prompt; sizing for this leaf ends there.
+This step is complete when the user has a copyable prompt containing the confirmed slice brief path and the next session's context-loading instructions; sizing for this leaf ends there.
